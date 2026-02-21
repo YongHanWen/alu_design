@@ -1,0 +1,8 @@
+Metric,Value
+Verification,PASS
+Clock Period,10.0
+Setup Slack (WNS),3.80
+Hold Slack (WHS),0.74
+Chip Area (um^2),2486.134400
+Est. Gate Count,248
+Violating Paths,0
