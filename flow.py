@@ -4,13 +4,15 @@
 #              2. Synthesis (Yosys + Sky130 + Optimization + Area Reporting)
 #              3. Timing Analysis (OpenSTA - Setup & Hold Constraints)
 
-import os, re, csv, subprocess, sys, shutil
+import os, re, csv, subprocess, sys, shutil, time
 
 # --- CONFIGURATION ---
 RESULTS_FILE = "ppa_summary.csv"
 NETLIST_FILE = "alu_netlist.v"
 LOG_FILE     = "synth.log"
 CLOCK_PERIOD = 10.0  # Target: 100 MHz (10ns)
+
+start_time = time.time()
 
 def run_step(name, cmd, env=None):
     print(f"--- Running {name} ---")
@@ -157,5 +159,10 @@ with open(RESULTS_FILE, "w", newline="") as f:
     writer.writerow(["Chip Area (um^2)", chip_area])
     writer.writerow(["Est. Gate Count", gate_count])
     writer.writerow(["Violating Paths", violating_paths])
+
+end_time = time.time()
+execution_time = round(end_time - start_time, 2)
+
+print(f" ⏱️  Total Execution Time: {execution_time} seconds")
 
 print(f"\n✅ Final Report Saved: {RESULTS_FILE}")

@@ -72,7 +72,7 @@ module tb;
         for (i = 0; i < 200; i = i + 1) begin
             a = $random; 
             b = $random; 
-            op = $random % 11; // Limit opcode to valid range (0-10)
+            op = $random % 16; // Limit opcode to valid range (0-10)
             
             @(posedge clk); #1;
             
@@ -88,10 +88,17 @@ module tb;
                 4'b0100: check_result(a | b, "OR ");
                 4'b0101: check_result(a ^ b, "XOR");
                 4'b0110: check_result(~a,    "NOT");
+                4'b1011: check_result(~(a & b), "NAND");
+                4'b1100: check_result(~(a | b), "NOR ");
+                4'b1101: check_result(~(a ^ b), "XNOR");
 
                 // Shift
                 4'b0111: check_result(a << 1, "SHL");
                 4'b1000: check_result(a >> 1, "SHR");
+
+                // Rotate
+                4'b1110: check_result({a[6:0], a[7]}, "ROL");
+                4'b1111: check_result({a[0], a[7:1]}, "ROR");
 
                 // Compare (Condition ? 1 : 0)
                 4'b1001: check_result((a == b) ? 8'd1 : 8'd0, "SEQ");

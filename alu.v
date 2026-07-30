@@ -35,10 +35,17 @@ module alu (
                 4'b0100: res_temp = {1'b0, a | b}; // OR
                 4'b0101: res_temp = {1'b0, a ^ b}; // XOR
                 4'b0110: res_temp = {1'b0, ~a};    // NOT (Invert)
+                4'b1011: res_temp = {1'b0, ~(a & b)};  // NAND
+                4'b1100: res_temp = {1'b0, ~(a | b)};  // NOR
+                4'b1101: res_temp = {1'b0, a ~^ b};    // XNOR
 
                 // Shifting
                 4'b0111: res_temp = {1'b0, a << 1}; // Shift Left
                 4'b1000: res_temp = {1'b0, a >> 1}; // Shift Right
+
+                // Rotate
+                4'b1110: res_temp = {1'b0, a[6:0], a[7]}; // Rotate Left
+                4'b1111: res_temp = {1'b0, a[0], a[7:1]}; // Rotate Right
 
                 // Comparisons (Output 1 if True)
                 4'b1001: res_temp = (a == b) ? 9'd1 : 9'd0; // SEQ (Equal)
